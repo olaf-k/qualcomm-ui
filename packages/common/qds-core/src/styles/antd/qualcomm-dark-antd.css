@@ -1,0 +1,29 @@
+/**
+ * This file was generated automatically. Do not edit it directly.
+ */
+/* stylelint-disable */
+
+.ant-steps .ant-steps-item:not(.ant-steps-item-active) > .ant-steps-item-container[role='button']:hover .ant-steps-item-icon {
+  background: #ffffff14;
+}
+
+.ant-steps .ant-steps-item:not(.ant-steps-item-active) > .ant-steps-item-container[role='button']:active .ant-steps-item-icon {
+  background: #ffffff29;
+}
+
+.ant-switch:not(.ant-switch-checked) {
+  background: #0a0a0a;
+  box-shadow: inset 0 0 0 1px #ffffff4d;
+}
+
+.ant-switch:not(.ant-switch-checked):hover:not(.ant-switch-disabled) {
+  background: #0a0a0a;
+}
+
+.ant-switch:not(.ant-switch-checked) .ant-switch-handle::before {
+  background-color: #dfdfe0;
+}
+
+.ant-switch:not(.ant-switch-checked):hover .ant-switch-handle::before {
+  background-color: #efeff0;
+}

@@ -48,6 +48,14 @@ export default {
       outFileName: "arduino-light.min.css",
     },
     {
+      cssFiles: ["src/styles/antd/qualcomm-light-antd.css"],
+      outFileName: "qualcomm-light-antd.min.css",
+    },
+    {
+      cssFiles: ["src/styles/antd/qualcomm-dark-antd.css"],
+      outFileName: "qualcomm-dark-antd.min.css",
+    },
+    {
       cssFiles: ["src/**/qds-*.css", "src/*.css"],
       emitIndividualCssFiles: true,
       ignore: ["src/styles/**/*"],

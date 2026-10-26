@@ -14,6 +14,7 @@ import {formattedVariables} from "style-dictionary/utils"
 
 import {dedent} from "@qualcomm-ui/utils/dedent"
 
+import {buildAntdThemes} from "./antd-builder"
 import {omittedPrefixRegexp} from "./constants"
 import {tokenFilesFromLocalVariables} from "./figma-to-dtcg"
 import {registerCustomTransformsForDtcg} from "./style-dictionary-transformers"
@@ -365,6 +366,7 @@ async function main() {
   const parser = FigmaTokenBuilder.fromEnv()
   await parser.parseAndSave()
   await buildTokenComments()
+  await buildAntdThemes()
 }
 
 void main()

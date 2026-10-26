@@ -34,6 +34,11 @@
       "style": "./dist/*-typography.min.css",
       "default": "./dist/*-typography.min.css"
     },
+    "./themes/*-antd.css": {
+      "import": "./dist/*-antd.min.css",
+      "style": "./dist/*-antd.min.css",
+      "default": "./dist/*-antd.min.css"
+    },
     "./styles/components.css": {
       "import": "./dist/components.min.css",
       "style": "./dist/components.min.css",
