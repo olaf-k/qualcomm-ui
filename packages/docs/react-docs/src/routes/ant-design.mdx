@@ -1,0 +1,80 @@
+---
+title: Ant Design
+---
+
+import {NpmInstallTabs} from "@qualcomm-ui/react-mdx/npm-install-tabs"
+
+# {frontmatter.title}
+
+We provide an [Ant Design](https://ant.design/) theme generated from QDS tokens. It gives an existing antd 5 application QUI colors, typography, spacing and control sizes, so you can adopt QUI components screen by screen without the rest of the app looking out of place.
+
+## Install
+
+<NpmInstallTabs packages={["@qualcomm-ui/qds-core"]} />
+
+## Apply the theme
+
+Pass the theme to antd's `ConfigProvider`, then import the QDS variables and the antd overrides for the same brand and theme:
+
+```tsx
+import {ConfigProvider} from "antd"
+
+import "@qualcomm-ui/qds-core/themes/qualcomm-light.css"
+import "@qualcomm-ui/qds-core/themes/qualcomm-light-antd.css"
+import {getQdsAntdTheme} from "@qualcomm-ui/qds-core/theme"
+
+export function App() {
+  return <ConfigProvider theme={getQdsAntdTheme()}>{/* ... */}</ConfigProvider>
+}
+```
+
+## Use the CSS variables
+
+You can also use the QDS CSS variables in your own styles by providing the `data-brand` and `data-theme` attributes to the `<html>` element:
+
+```html
+<html data-brand="qualcomm" data-theme="light"></html>
+```
+
+## Fonts
+
+QUI components use Roboto Flex. Add the font links from the [setup guide](/setup/vite#configure-fonts) to your application's `<head>`.
+
+## Dark theme
+
+antd's dark algorithm dims base colors, while QDS provides two sets of values. Apply `restoreQdsSeedColors` after the dark algorithm to keep them.
+
+```tsx
+import {ConfigProvider, theme} from "antd"
+
+import {
+  getQdsAntdTheme,
+  restoreQdsSeedColors,
+} from "@qualcomm-ui/qds-core/theme"
+
+export function App() {
+  return (
+    <ConfigProvider
+      theme={{
+        ...getQdsAntdTheme({theme: "dark"}),
+        algorithm: [theme.darkAlgorithm, restoreQdsSeedColors],
+      }}
+    >
+      {/* ... */}
+    </ConfigProvider>
+  )
+}
+```
+
+## Sizes
+
+antd's `small`, `middle` and `large` controls map to QUI's 24, 32 and 40px heights. antd's default size therefore matches QUI's `sm` size.
+
+## Limitations
+
+The theme only changes token values; antd components keep their own structure. A few QUI details have no antd equivalent:
+
+- Focus rings on buttons follow antd's outline style.
+- Selected options in a select get a faint brand tint, where QUI shows an indicator only.
+
+Hardcoded colors and fonts in your own styles still override the theme. Replace them with QDS variables such as `var(--color-text-neutral-secondary)` so they follow the theme.

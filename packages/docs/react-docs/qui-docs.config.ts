@@ -52,6 +52,7 @@ const navConfig: NavConfig[] = [
     id: "ai-tools",
     title: "AI Tools",
   },
+  {id: "ant-design"},
   {id: "eslint"},
   {id: "tailwind"},
 
