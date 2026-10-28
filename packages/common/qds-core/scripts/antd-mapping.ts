@@ -283,7 +283,6 @@ export const antdComponentTokens = {
   },
   Steps: {
     errorIconBorderColor: color("color-icon-support-danger"),
-    finishDescriptionColor: color("color-text-neutral-secondary"),
     finishIconBgColor: color("color-interactive-background-ghost-idle"),
     finishIconBorderColor: color("color-background-brand-primary"),
     finishIconColor: color("color-background-brand-primary"),
@@ -293,12 +292,10 @@ export const antdComponentTokens = {
     processIconBorderColor: color("color-background-brand-primary"),
     processIconColor: color("color-utility-persistent-white"),
     processTailColor: color("cross-component-track-default"),
-    waitDescriptionColor: color("color-text-neutral-secondary"),
     waitIconBgColor: color("color-interactive-background-ghost-idle"),
     waitIconBorderColor: color("color-border-support-neutral-medium"),
     waitIconColor: color("color-text-neutral-secondary"),
     waitTailColor: color("cross-component-track-default"),
-    waitTitleColor: color("color-text-neutral-primary"),
   },
   Switch: {
     colorPrimary: color("color-interactive-background-primary-idle"),
@@ -397,5 +394,26 @@ export const antdCssOverrides: AntdCssOverride[] = [
     },
     selector:
       ".ant-switch:not(.ant-switch-checked):hover .ant-switch-handle::before",
+  },
+  {
+    declarations: {color: color("color-text-neutral-primary")},
+    selector:
+      ".ant-switch:not(.ant-switch-checked) .ant-switch-inner .ant-switch-inner-unchecked",
+  },
+  // antd's Steps style hard-codes these from colorTextDescription, so their
+  // component tokens are ignored.
+  {
+    declarations: {color: color("color-text-neutral-primary")},
+    selector:
+      ".ant-steps .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title",
+  },
+  {
+    declarations: {color: color("color-text-neutral-secondary")},
+    selector:
+      ".ant-steps .ant-steps-item:is(.ant-steps-item-wait, .ant-steps-item-finish) > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-description",
+  },
+  {
+    declarations: {"align-items": literal("center")},
+    selector: ".ant-select-dropdown .ant-select-item-option",
   },
 ]
