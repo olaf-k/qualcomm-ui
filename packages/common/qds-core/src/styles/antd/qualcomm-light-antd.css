@@ -27,3 +27,19 @@
 .ant-switch:not(.ant-switch-checked):hover .ant-switch-handle::before {
   background-color: #1f1f1f;
 }
+
+.ant-switch:not(.ant-switch-checked) .ant-switch-inner .ant-switch-inner-unchecked {
+  color: #0a0a0a;
+}
+
+.ant-steps .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+  color: #0a0a0a;
+}
+
+.ant-steps .ant-steps-item:is(.ant-steps-item-wait, .ant-steps-item-finish) > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-description {
+  color: #636364;
+}
+
+.ant-select-dropdown .ant-select-item-option {
+  align-items: center;
+}

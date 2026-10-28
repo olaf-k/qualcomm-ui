@@ -128,7 +128,6 @@ export const antdThemes = {
       },
       "Steps": {
         "errorIconBorderColor": "#c71100",
-        "finishDescriptionColor": "#636364",
         "finishIconBgColor": "#00000000",
         "finishIconBorderColor": "#2a2aea",
         "finishIconColor": "#2a2aea",
@@ -138,12 +137,10 @@ export const antdThemes = {
         "processIconBorderColor": "#2a2aea",
         "processIconColor": "#ffffff",
         "processTailColor": "#0000001a",
-        "waitDescriptionColor": "#636364",
         "waitIconBgColor": "#00000000",
         "waitIconBorderColor": "#b9b9ba",
         "waitIconColor": "#636364",
-        "waitTailColor": "#0000001a",
-        "waitTitleColor": "#0a0a0a"
+        "waitTailColor": "#0000001a"
       },
       "Switch": {
         "colorPrimary": "#2a2aea",
@@ -402,7 +399,6 @@ export const antdThemes = {
       },
       "Steps": {
         "errorIconBorderColor": "#f1735e",
-        "finishDescriptionColor": "#aaaaab",
         "finishIconBgColor": "#ffffff00",
         "finishIconBorderColor": "#2d3ee0",
         "finishIconColor": "#2d3ee0",
@@ -412,12 +408,10 @@ export const antdThemes = {
         "processIconBorderColor": "#2d3ee0",
         "processIconColor": "#ffffff",
         "processTailColor": "#ffffff1a",
-        "waitDescriptionColor": "#aaaaab",
         "waitIconBgColor": "#ffffff00",
         "waitIconBorderColor": "#4f4f50",
         "waitIconColor": "#aaaaab",
-        "waitTailColor": "#ffffff1a",
-        "waitTitleColor": "#ffffff"
+        "waitTailColor": "#ffffff1a"
       },
       "Switch": {
         "colorPrimary": "#2d3ee0",
