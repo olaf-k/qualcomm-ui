@@ -24,6 +24,8 @@ import {isDefined} from "@qualcomm-ui/utils/guard"
 import {matchSorter} from "@qualcomm-ui/utils/match-sorter"
 import {mergeProps} from "@qualcomm-ui/utils/merge-props"
 
+import {SideNavBadges} from "../internal/badges.js"
+
 import {useMdxDocsLayoutContext} from "./use-mdx-docs-layout.js"
 
 export interface SidebarProps extends Omit<ElementRenderProp<"div">, "dir"> {
@@ -63,7 +65,8 @@ export function Sidebar({
   const ref = useRef<HTMLDivElement | null>(null)
   const {navDensity, navItems, pathname} = useMdxDocsLayoutContext()
   const {layoutComponents, renderLink: RenderLink} = useMdxDocsContext()
-  const SideNavBadgesComponent = layoutComponents?.SideNavBadges
+  const SideNavBadgesComponent =
+    layoutComponents?.SideNavBadges ?? SideNavBadges
 
   const initialCollection = useMemo(
     () =>
@@ -88,6 +91,18 @@ export function Sidebar({
   const [expandedValue, setExpandedValue] = useState<string[]>(
     getExpandedItems(navItems, pathname),
   )
+  const initialExpandedValue = useRef<string[]>(expandedValue)
+
+  // Pages can switch between nav trees, e.g. into an OpenAPI page's sidebar.
+  const [currentCollection, setCurrentCollection] = useState(initialCollection)
+  if (currentCollection !== initialCollection) {
+    const nextExpandedValue = getExpandedItems(navItems, pathname)
+    setCurrentCollection(initialCollection)
+    setCollection(initialCollection)
+    setQuery("")
+    setExpandedValue(nextExpandedValue)
+    initialExpandedValue.current = nextExpandedValue
+  }
 
   function onSelectedValueChange(value: string[]) {
     // eagerly set the selected value so that the active item is highlighted
@@ -110,8 +125,6 @@ export function Sidebar({
   const [selectedValue, setSelectedValue] = useState<string[]>(() =>
     getSelectedValue(),
   )
-
-  const initialExpandedValue = useRef<string[]>(expandedValue)
 
   useSafeLayoutEffect(() => {
     setSelectedValue(getSelectedValue())
@@ -313,8 +326,11 @@ export function Sidebar({
                   }
                 >
                   <SideNav.NodeText>{node.title}</SideNav.NodeText>
-                  {SideNavBadgesComponent && node.badges ? (
-                    <SideNav.NodeAccessory className="qui-docs-sidebar__item-badges">
+                  {node.badges?.length ? (
+                    <SideNav.NodeAccessory
+                      className="qui-docs-sidebar__item-badges"
+                      data-align={node.method ? "end" : undefined}
+                    >
                       <SideNavBadgesComponent badges={node.badges} />
                     </SideNav.NodeAccessory>
                   ) : null}
