@@ -9,6 +9,8 @@ import {mergeProps} from "@qualcomm-ui/utils/merge-props"
 import {useMdxDocsLayoutContext} from "../layout/index.js"
 import type {FrontmatterBadge} from "../types.js"
 
+import {PageHeaderBadges} from "./badges.js"
+
 export interface PageHeaderProps extends ComponentPropsWithRef<"h1"> {}
 
 export function PageHeader(props: PageHeaderProps): ReactElement {
@@ -17,14 +19,12 @@ export function PageHeader(props: PageHeaderProps): ReactElement {
   const frontmatter = context.pageFrontmatter
 
   const badges = (frontmatter.badges ?? []) as FrontmatterBadge[]
-  const BadgeComponent = layoutComponents?.PageHeaderBadges
+  const BadgeComponent = layoutComponents?.PageHeaderBadges ?? PageHeaderBadges
 
   return (
     <div className="qui-docs__page-header">
       <h1 {...mergeProps({className: "mdx"}, props)} />
-      {BadgeComponent && badges.length ? (
-        <BadgeComponent badges={badges} />
-      ) : null}
+      {badges.length ? <BadgeComponent badges={badges} /> : null}
     </div>
   )
 }

@@ -46,14 +46,16 @@ export interface DemoSettings {
 export interface LayoutComponents {
   /**
    * Badge renderer for the page header. Renders badges from the corresponding
-   * page's frontmatter.badges field. Return null to hide the badge.
+   * page's frontmatter.badges field. Return null to hide the badge. Defaults to a
+   * built-in renderer.
    *
    * @since 2.8.0
    */
   PageHeaderBadges?: FunctionComponent<{badges: NavBadge[]}>
   /**
    * Badge renderer for the side navigation. Renders badges from the corresponding
-   * page's frontmatter.badges field. Return null to hide the badge.
+   * page's frontmatter.badges field. Return null to hide the badge. Defaults to a
+   * built-in renderer.
    *
    * @since 2.8.0
    */

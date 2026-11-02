@@ -11,12 +11,9 @@ import {
   HeaderAiLink,
   HeaderLogo,
   HeaderRepositoryLink,
-  PageHeaderBadges,
   QuiEcosystemMenu,
-  SideNavBadges,
   ThemeToggle,
 } from "@qualcomm-ui/react-internal/layout"
-import type {LayoutComponents} from "@qualcomm-ui/react-mdx/context"
 import {
   DocsLayout,
   type DocsLayoutSettings,
@@ -26,11 +23,6 @@ import {HeaderBar} from "@qualcomm-ui/react/header-bar"
 import reactPkg from "../../../../../frameworks/react/package.json"
 
 import {GlobalSearch} from "./global-search"
-
-const layoutComponents: LayoutComponents = {
-  PageHeaderBadges,
-  SideNavBadges,
-}
 
 interface Props extends Partial<DocsLayoutSettings> {
   /**
@@ -97,7 +89,6 @@ export function MdxLayout({
           </HeaderBar.Root>
         </div>
       }
-      layoutComponents={layoutComponents}
       pathname={location.pathname}
       renderLink={DocLink}
       rootBreadcrumb={{

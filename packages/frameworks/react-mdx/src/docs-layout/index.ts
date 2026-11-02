@@ -1,4 +1,6 @@
 export * from "./docs-layout.js"
+export {httpMethodBadges} from "./internal/badges.js"
+export {PageHeader, type PageHeaderProps} from "./internal/page-header.js"
 export * from "./layout/index.js"
 export * from "./mdx-provider.js"
 export type * from "./types.js"
