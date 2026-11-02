@@ -70,3 +70,32 @@ export function getExample(schema: JsonSchema | undefined, depth = 0): unknown {
       return undefined
   }
 }
+
+export interface MediaType {
+  example?: unknown
+  examples?: Record<string, {value?: unknown}>
+  schema?: JsonSchema
+}
+
+/**
+ * The spec's own example: `example`, then the first of `examples`. `null` is a
+ * valid example, only `undefined` means none.
+ */
+export function getDeclaredExample(source: {
+  example?: unknown
+  examples?: Record<string, {value?: unknown}>
+}): unknown {
+  if (source.example !== undefined) {
+    return source.example
+  }
+  return Object.values(source.examples ?? {})[0]?.value
+}
+
+/**
+ * The declared example of a request or response body, or one generated from
+ * its schema.
+ */
+export function getMediaExample(media: MediaType): unknown {
+  const declared = getDeclaredExample(media)
+  return declared !== undefined ? declared : getExample(media.schema)
+}

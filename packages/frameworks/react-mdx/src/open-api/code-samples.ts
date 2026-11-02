@@ -1,7 +1,12 @@
 // Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 // SPDX-License-Identifier: BSD-3-Clause-Clear
 
-import {getExample} from "./get-example.js"
+import {
+  getDeclaredExample,
+  getExample,
+  getMediaExample,
+  type MediaType,
+} from "./get-example.js"
 import type {JsonSchema} from "./schema-type.js"
 
 export interface CodeSampleInput {
@@ -18,30 +23,6 @@ export interface CodeSampleInput {
   path: string
   requestBody?: {content?: Record<string, MediaType>}
   servers: {url?: string}[]
-}
-
-interface MediaType {
-  example?: unknown
-  examples?: Record<string, {value?: unknown}>
-  schema?: JsonSchema
-}
-
-/**
- * The spec's own example wins: `example`, then the first of `examples`. `null`
- * is a valid example, only `undefined` means none.
- */
-function getDeclaredExample(source: {
-  example?: unknown
-  examples?: Record<string, {value?: unknown}>
-}): unknown {
-  if (source.example !== undefined) {
-    return source.example
-  }
-  return Object.values(source.examples ?? {})[0]?.value
-}
-
-function withFallback(value: unknown, fallback: () => unknown): unknown {
-  return value !== undefined ? value : fallback()
 }
 
 export interface CodeSample {
@@ -118,7 +99,8 @@ function getRequest({
 
   for (const parameter of parameters) {
     const declared = getDeclaredExample(parameter)
-    const example = withFallback(declared, () => getExample(parameter.schema))
+    const example =
+      declared !== undefined ? declared : getExample(parameter.schema)
     if (parameter.in === "path" && declared !== undefined) {
       url = url.replace(`{${parameter.name}}`, toParameterValue(declared))
     } else if (parameter.required && parameter.in === "query") {
@@ -139,9 +121,7 @@ function getRequest({
     headers["Content-Type"] = contentType
   }
   const media = contentType === "application/json" ? content[contentType] : null
-  const body = media
-    ? withFallback(getDeclaredExample(media), () => getExample(media.schema))
-    : undefined
+  const body = media ? getMediaExample(media) : undefined
 
   return {body, contentType, headers, method: method.toUpperCase(), url}
 }
