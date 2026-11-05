@@ -38,7 +38,7 @@ describe("PluginState knowledge exports", () => {
       pageDirectory: "routes",
     })
     const exportPathnames = async () => {
-      state.buildIndex(false)
+      await state.buildIndex(false)
       await state.generateKnowledge(publicDirectory)
       return state.pages!.pages.map((page) => page.pathname).sort()
     }
@@ -127,7 +127,7 @@ describe("PluginState knowledge exports", () => {
       pageDirectory: "routes",
       routingStrategy: "react-router-directory-groups",
     })
-    state.buildIndex(false)
+    await state.buildIndex(false)
 
     await state.generateKnowledge(publicDirectory)
 

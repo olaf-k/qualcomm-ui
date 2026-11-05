@@ -44,7 +44,7 @@ export function quiDocsPlugin(opts?: QuiDocsPluginOptions): PluginOption {
       )
     },
     buildStart: async () => {
-      state.buildIndex(state.buildCount > 0)
+      await state.buildIndex(state.buildCount > 0)
       state.buildCount++
 
       if (!isDev && state.knowledgeConfig) {
@@ -96,7 +96,7 @@ export function quiDocsPlugin(opts?: QuiDocsPluginOptions): PluginOption {
       })
       state.servers.push(server)
     },
-    handleHotUpdate: ({file: updateFile, modules, server}) => {
+    handleHotUpdate: async ({file: updateFile, modules, server}) => {
       if (updateFile.endsWith(".css")) {
         return modules
       }
@@ -114,7 +114,7 @@ export function quiDocsPlugin(opts?: QuiDocsPluginOptions): PluginOption {
 
         if (updateFile.endsWith(".mdx")) {
           state.debouncedGenerateKnowledge(getPublicDir())
-          const files = state.buildIndex(true)
+          const files = await state.buildIndex(true)
 
           // Route loaders run in the SSR environment, which `server.moduleGraph`
           // doesn't cover.
