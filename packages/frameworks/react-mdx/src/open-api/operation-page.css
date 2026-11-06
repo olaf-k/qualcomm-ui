@@ -65,3 +65,45 @@
 .qui-docs-openapi__example + .qui-docs-openapi__example {
   margin-top: var(--spacing-80);
 }
+
+.qui-docs-openapi__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  margin-top: var(--spacing-100);
+}
+
+.qui-docs-openapi__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-70);
+  min-width: 0;
+
+  .qui-docs-openapi__description,
+  .qui-docs-openapi__field-default {
+    color: var(--color-text-neutral-secondary);
+    font: var(--font-static-body-sm-default);
+  }
+
+  .qui-docs-openapi__field-default code {
+    font: var(--font-static-code-sm-default);
+  }
+}
+
+.qui-docs-openapi__field-header {
+  align-items: baseline;
+  column-gap: var(--spacing-70);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.qui-docs-openapi__field-name {
+  color: var(--color-text-neutral-primary);
+  font: var(--font-static-code-sm-bold);
+}
+
+.qui-docs-openapi__field-type {
+  color: var(--color-text-neutral-secondary);
+  font: var(--font-static-code-sm-default);
+  overflow-wrap: anywhere;
+}

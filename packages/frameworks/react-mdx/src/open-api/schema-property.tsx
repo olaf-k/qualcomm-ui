@@ -24,7 +24,7 @@ export interface SchemaPropertyProps {
 }
 
 /**
- * One property, in the same markup and classes as the TypeDoc props list.
+ * One property: its name and type on one line, then its description.
  * Object properties expand into a nested list.
  */
 export function SchemaProperty({
@@ -40,60 +40,44 @@ export function SchemaProperty({
   const expandable = getExpandable(schema)
 
   return (
-    <div className="doc-props-list-item__root">
-      <div className="doc-props-list-item__name-wrapper">
-        <div className="doc-props-item__name">
-          <div className="doc-props-item__label">
-            <code className="qui-docs-code">{name}</code>
-            {required ? (
-              <div className="doc-props-item__required-indicator">
-                <sup>*</sup>
-              </div>
-            ) : null}
-            {deprecated || schema?.deprecated ? (
-              <div className="doc-props-item__deprecated-indicator">
-                <sup>*</sup>
-              </div>
-            ) : null}
-          </div>
-        </div>
+    <div className="qui-docs-openapi__field">
+      <div className="qui-docs-openapi__field-header">
+        <span>
+          <code className="qui-docs-openapi__field-name">{name}</code>
+          {required ? (
+            <span className="doc-props-item__required-indicator">*</span>
+          ) : null}
+          {deprecated || schema?.deprecated ? (
+            <span className="doc-props-item__deprecated-indicator">*</span>
+          ) : null}
+        </span>
+        <code className="qui-docs-openapi__field-type">
+          {getSchemaTypeLabel(schema)}
+        </code>
       </div>
-
-      <div className="doc-props-columns">
-        <div className="doc-props__content">
-          <div className="doc-props__title">Type</div>
-          <code className="qui-docs-code">{getSchemaTypeLabel(schema)}</code>
+      {text ? (
+        <div className="qui-docs-openapi__description">{text}</div>
+      ) : null}
+      {defaultValue !== undefined ? (
+        <div className="qui-docs-openapi__field-default">
+          Default <code>{JSON.stringify(defaultValue)}</code>
         </div>
-        {defaultValue !== undefined ? (
-          <div className="doc-props__content">
-            <div className="doc-props__title">Default</div>
-            <code className="qui-docs-code">
-              {JSON.stringify(defaultValue)}
-            </code>
-          </div>
-        ) : null}
-        {text ? (
-          <div className="doc-props__content">
-            <div className="doc-props__title">Description</div>
-            <div className="qui-docs-openapi__description">{text}</div>
-          </div>
-        ) : null}
-        {expandable ? (
-          <SpoilerRoot>
-            <SpoilerSummary>Properties</SpoilerSummary>
-            <SpoilerContent>
-              {expandable.kind === "variants" ? (
-                <SchemaVariants
-                  schema={expandable.schema}
-                  variants={expandable.variants}
-                />
-              ) : (
-                <SchemaProperties schema={expandable.schema} />
-              )}
-            </SpoilerContent>
-          </SpoilerRoot>
-        ) : null}
-      </div>
+      ) : null}
+      {expandable ? (
+        <SpoilerRoot>
+          <SpoilerSummary>Properties</SpoilerSummary>
+          <SpoilerContent>
+            {expandable.kind === "variants" ? (
+              <SchemaVariants
+                schema={expandable.schema}
+                variants={expandable.variants}
+              />
+            ) : (
+              <SchemaProperties schema={expandable.schema} />
+            )}
+          </SpoilerContent>
+        </SpoilerRoot>
+      ) : null}
     </div>
   )
 }
@@ -108,7 +92,7 @@ export function SchemaProperties({schema}: {schema: JsonSchema}): ReactNode {
   )
 
   return (
-    <div className="doc-props-list__root">
+    <div className="qui-docs-openapi__fields">
       {entries.map(([name, property]) => (
         <SchemaProperty
           key={name}

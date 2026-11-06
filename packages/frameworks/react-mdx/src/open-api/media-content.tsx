@@ -93,7 +93,7 @@ export function MediaContent({
             ) : schema?.properties ? (
               <SchemaProperties schema={schema} />
             ) : (
-              <div className="doc-props-list__root">
+              <div className="qui-docs-openapi__fields">
                 <SchemaProperty name="body" schema={schema} />
               </div>
             )}

@@ -35,7 +35,7 @@ export function Parameters({
     return (
       <section key={location}>
         <h2 className="mdx">{title}</h2>
-        <div className="doc-props-list__root">
+        <div className="qui-docs-openapi__fields">
           {group.map(({in: _in, ...parameter}) => (
             <SchemaProperty key={parameter.name} {...parameter} />
           ))}
