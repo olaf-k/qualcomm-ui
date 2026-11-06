@@ -26,6 +26,7 @@ import {mergeProps} from "@qualcomm-ui/utils/merge-props"
 
 import {SideNavBadges} from "../internal/badges.js"
 
+import {NavSwitcher} from "./nav-switcher.js"
 import {useMdxDocsLayoutContext} from "./use-mdx-docs-layout.js"
 
 export interface SidebarProps extends Omit<ElementRenderProp<"div">, "dir"> {
@@ -63,7 +64,8 @@ export function Sidebar({
   ...props
 }: SidebarProps): ReactElement {
   const ref = useRef<HTMLDivElement | null>(null)
-  const {navDensity, navItems, pathname} = useMdxDocsLayoutContext()
+  const {navDensity, navItems, navSwitcher, pathname} =
+    useMdxDocsLayoutContext()
   const {layoutComponents, renderLink: RenderLink} = useMdxDocsContext()
   const SideNavBadgesComponent =
     layoutComponents?.SideNavBadges ?? SideNavBadges
@@ -255,6 +257,8 @@ export function Sidebar({
             {children}
           </SideNav.Header>
         ) : null}
+
+        {navSwitcher ? <NavSwitcher navSwitcher={navSwitcher} /> : null}
 
         {filterable ? (
           <>

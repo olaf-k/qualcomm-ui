@@ -3,6 +3,7 @@
 
 import {type ReactElement, useMemo, useState} from "react"
 
+import type {NavItem, PageMap} from "@qualcomm-ui/mdx-common"
 import {
   bindingRenderProp,
   type BindingRenderProp,
@@ -25,6 +26,7 @@ import type {DocsLayoutSettings} from "../types.js"
 import {
   MdxDocsLayoutContextProvider,
   type MdxDocsLayoutContextState,
+  type NavSwitcherState,
 } from "./use-mdx-docs-layout.js"
 
 export interface RootProps
@@ -42,6 +44,7 @@ export function Root({
   demoSettings: demoSettingsProp,
   demoState: demoStateProp,
   docProps,
+  docsNavLabel = "Documentation",
   hideToc,
   layoutComponents,
   mdxComponents,
@@ -69,6 +72,15 @@ export function Root({
 
   const {exports, navItems, openApiNavs, pageDocProps, pageMap} =
     useSiteContext()
+
+  const openApiPathname = Object.keys(openApiNavs ?? {}).find(
+    (key) => pathname === key || pathname.startsWith(`${key}/`),
+  )
+
+  const [lastDocsPathname, setLastDocsPathname] = useState<string | null>(null)
+  if (!openApiPathname && lastDocsPathname !== pathname) {
+    setLastDocsPathname(pathname)
+  }
 
   const mdxDocsContextValue: MdxDocsContextValue = useMemo(
     () => ({
@@ -137,16 +149,19 @@ export function Root({
 
     const pageProps = pageDocProps?.[pathname] || {}
 
-    const openApiPathname = Object.keys(openApiNavs ?? {}).find(
-      (key) => pathname === key || pathname.startsWith(`${key}/`),
-    )
-
     return {
       hidePageLinks,
       hideSideNav,
       mainContentElement,
       navDensity,
       navItems: openApiPathname ? openApiNavs![openApiPathname] : navItems,
+      navSwitcher: getNavSwitcher({
+        docsNavLabel,
+        docsPathname: lastDocsPathname ?? getFirstPathname(navItems) ?? "/",
+        openApiPathname,
+        openApiPathnames: Object.keys(openApiNavs ?? {}),
+        pageMap,
+      }),
       pageExport,
       pageFrontmatter: pageData?.data ?? {},
       pageMap,
@@ -157,12 +172,15 @@ export function Root({
       toc,
     }
   }, [
+    docsNavLabel,
     exports,
     hideToc,
+    lastDocsPathname,
     navDensity,
     mainContentElement,
     navItems,
     openApiNavs,
+    openApiPathname,
     pageDocProps,
     pageMap,
     pathname,
@@ -186,4 +204,53 @@ export function Root({
       </MdxProvider>
     </MdxDocsProvider>
   )
+}
+
+function getFirstPathname(items: NavItem[]): string | undefined {
+  for (const item of items) {
+    const pathname = item.pathname ?? getFirstPathname(item.items ?? [])
+    if (pathname) {
+      return pathname
+    }
+  }
+  return undefined
+}
+
+interface NavSwitcherOptions {
+  docsNavLabel: string
+  docsPathname: string
+  openApiPathname: string | undefined
+  openApiPathnames: string[]
+  pageMap: PageMap
+}
+
+/**
+ * Hidden APIs stay out of the switcher, except while one is being viewed so
+ * that the trigger still names it.
+ */
+function getNavSwitcher({
+  docsNavLabel,
+  docsPathname,
+  openApiPathname,
+  openApiPathnames,
+  pageMap,
+}: NavSwitcherOptions): NavSwitcherState | null {
+  const apiEntries = openApiPathnames
+    .filter(
+      (pathname) => pathname === openApiPathname || !pageMap[pathname]?.hidden,
+    )
+    .map((pathname) => ({
+      label: pageMap[pathname]?.title || pathname,
+      pathname,
+    }))
+  if (!apiEntries.length) {
+    return null
+  }
+  const docsEntry = {label: docsNavLabel, pathname: docsPathname}
+  return {
+    active:
+      apiEntries.find((entry) => entry.pathname === openApiPathname) ??
+      docsEntry,
+    entries: [docsEntry, ...apiEntries],
+  }
 }

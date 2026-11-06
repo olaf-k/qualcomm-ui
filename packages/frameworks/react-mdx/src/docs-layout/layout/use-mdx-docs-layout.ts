@@ -19,12 +19,23 @@ import type {PropsContextValue} from "@qualcomm-ui/react-mdx/typedoc"
 
 import type {NavDensity} from "../types.js"
 
+export interface NavSwitcherEntry {
+  label: string
+  pathname: string
+}
+
+export interface NavSwitcherState {
+  active: NavSwitcherEntry
+  entries: NavSwitcherEntry[]
+}
+
 export interface MdxDocsLayoutContextState {
   hidePageLinks: boolean
   hideSideNav: boolean
   mainContentElement: HTMLElement | null
   navDensity: NavDensity
   navItems: NavItem[]
+  navSwitcher: NavSwitcherState | null
   pageExport: boolean | KnowledgePageData | undefined
   pageFrontmatter: Record<string, unknown>
   pageMap: PageMap
