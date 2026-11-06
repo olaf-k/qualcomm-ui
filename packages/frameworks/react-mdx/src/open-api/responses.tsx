@@ -1,9 +1,12 @@
 // Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 // SPDX-License-Identifier: BSD-3-Clause-Clear
 
-import {type ReactNode, useState} from "react"
+import type {ReactNode} from "react"
 
-import {SegmentedControl} from "@qualcomm-ui/react/segmented-control"
+import {ChevronRight} from "lucide-react"
+
+import {Collapsible} from "@qualcomm-ui/react/collapsible"
+import {Icon} from "@qualcomm-ui/react/icon"
 
 import {MediaContent, type OpenApiContent} from "./media-content.js"
 
@@ -13,38 +16,57 @@ export interface OpenApiResponse {
 }
 
 /**
- * One response at a time, picked by status code.
+ * Every response as a row, collapsed to its status code and description. Rows
+ * with a body expand into its schema.
  */
 export function Responses({
   responses,
 }: {
   responses?: Record<string, OpenApiResponse>
 }): ReactNode {
-  const codes = Object.keys(responses ?? {})
-  const [selected, setSelected] = useState(codes[0])
-  if (!codes.length) {
+  const entries = Object.entries(responses ?? {})
+  if (!entries.length) {
     return null
   }
-  const code = codes.includes(selected) ? selected : codes[0]
-  const response = responses![code]
 
   return (
     <section>
       <h2 className="mdx">Responses</h2>
-      <SegmentedControl.Root
-        onValueChange={(value) => value?.[0] && setSelected(value[0])}
-        value={[code]}
-      >
-        {codes.map((value) => (
-          <SegmentedControl.Item key={value} text={value} value={value} />
-        ))}
-      </SegmentedControl.Root>
-      {response.description ? (
-        <p className="qui-docs-openapi__description mdx">
-          {response.description}
-        </p>
-      ) : null}
-      <MediaContent key={code} content={response.content} />
+      <div className="qui-docs-openapi__fields">
+        {entries.map(([code, {content, description}]) => {
+          const header = (
+            <>
+              <code className="qui-docs-openapi__field-name">{code}</code>
+              {description ? (
+                <span className="qui-docs-openapi__response-description">
+                  {description}
+                </span>
+              ) : null}
+            </>
+          )
+          if (!Object.keys(content ?? {}).length) {
+            return (
+              <div key={code} className="qui-docs-openapi__field">
+                <div className="qui-docs-openapi__field-header">{header}</div>
+              </div>
+            )
+          }
+          return (
+            <Collapsible.Root key={code} className="qui-docs-openapi__field">
+              <Collapsible.Trigger className="qui-docs-openapi__field-header">
+                <Icon
+                  className="qui-docs-openapi__field-indicator"
+                  icon={ChevronRight}
+                />
+                {header}
+              </Collapsible.Trigger>
+              <Collapsible.Content className="qui-docs-openapi__field-children">
+                <MediaContent content={content} />
+              </Collapsible.Content>
+            </Collapsible.Root>
+          )
+        })}
+      </div>
     </section>
   )
 }

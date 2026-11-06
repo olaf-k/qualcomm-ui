@@ -151,7 +151,11 @@ button.qui-docs-openapi__field-header {
   margin-inline-start: calc(-1 * var(--spacing-90));
   padding-inline-start: calc(var(--spacing-90) + var(--spacing-100));
 
-  > .qui-docs-openapi__fields {
+  > :first-child {
     margin-top: 0;
   }
+}
+
+.qui-docs-openapi__response-description {
+  font: var(--font-static-body-sm-default);
 }
