@@ -103,7 +103,55 @@
 }
 
 .qui-docs-openapi__field-type {
+  overflow-wrap: anywhere;
+}
+
+button.qui-docs-openapi__field-header {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  margin-inline-start: calc(-1 * (var(--sizing-70) + var(--spacing-40)));
+  padding: 0;
+  padding-inline-start: calc(var(--sizing-70) + var(--spacing-40));
+  position: relative;
+  text-align: start;
+
+  &:focus-visible {
+    border-radius: var(--border-radius-sm);
+    outline: 2px solid var(--color-utility-focus-border);
+    outline-offset: 2px;
+  }
+}
+
+.qui-docs-openapi__field-indicator {
+  color: var(--color-icon-neutral-secondary);
+  left: 0;
+  position: absolute;
+  top: 2px;
+  transition: transform var(--animation-duration-faster);
+
+  [data-state="open"] > & {
+    transform: rotate(90deg);
+  }
+}
+
+.qui-docs-openapi__field-preview {
   color: var(--color-text-neutral-secondary);
   font: var(--font-static-code-sm-default);
-  overflow-wrap: anywhere;
+
+  [data-state="open"] > & {
+    display: none;
+  }
+}
+
+.qui-docs-openapi__field-children {
+  border-inline-start: 1px solid var(--color-border-neutral-01);
+  margin-inline-start: calc(-1 * var(--spacing-90));
+  padding-inline-start: calc(var(--spacing-90) + var(--spacing-100));
+
+  > .qui-docs-openapi__fields {
+    margin-top: 0;
+  }
 }
